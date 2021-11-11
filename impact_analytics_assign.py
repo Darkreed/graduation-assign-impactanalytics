@@ -17,21 +17,23 @@
 # Generate binary numbers of length N digits. This will represent all possible combinations of ways to attend, since binary numbers naturally behave that way
 # 1's will be attendance, 0's will be absence
 def generate_binary_attendance(n):
-    attendance_list=[]
     for i in range(2**n):
         temp=(bin(i).replace("0b", "")).rjust(n, '0')
-        attendance_list.append(temp)
-    return attendance_list
+        yield temp
 
-n=10
-valid_attendance=0
-grad_missed=0
-for attendance in generate_binary_attendance(n):
-    #Verify if this way of attending does not have 4 consecutive absences
-    if '0000' not in attendance:
-        valid_attendance+=1
-        #If valid attendance, check if graduation is being missed
-        if attendance[-1]=='0':
-            grad_missed+=1
+def find_prob(n):
+    valid_attendance=0
+    grad_missed=0
+    for attendance in generate_binary_attendance(n):
+        #Verify if this way of attending does not have 4 consecutive absences
+        if '0000' not in attendance:
+            valid_attendance+=1
+            #If valid attendance, check if graduation is being missed
+            if attendance[-1]=='0':
+                grad_missed+=1
 
-print(f'{grad_missed}/{valid_attendance}')
+
+    print(f'for {n} days: {grad_missed}/{valid_attendance}')
+
+find_prob(5)
+find_prob(10)
